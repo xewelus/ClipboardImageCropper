@@ -24,7 +24,7 @@ namespace ClipboardImageCropper
 
 			icon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
 
-			icon.ContextMenuStrip.Items.Add("Settings...", null, this.OnQuit);
+			icon.ContextMenuStrip.Items.Add("Settings...", null, this.OnSettings);
 			icon.ContextMenuStrip.Items.Add("Quit", null, this.OnQuit);
 
 			icon.ContextMenuStrip.Opening += this.ContextMenuStripOnOpening;
@@ -97,6 +97,23 @@ namespace ClipboardImageCropper
 			}
 
 			return destImage;
+		}
+
+		private void OnSettings(object sender, EventArgs e)
+		{
+			Sizes sizes = new Sizes();
+			sizes.List.Add(new Size(320, 240));
+			sizes.List.Add(new Size(640, 480));
+			sizes.List.Add(new Size(1024, 768));
+			sizes.List.Add(new Size(1920, 1080));
+
+			using (SettingsForm dlg = new SettingsForm(sizes))
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					// save
+				}
+			}
 		}
 
 		private void OnQuit(object sender, EventArgs e)
