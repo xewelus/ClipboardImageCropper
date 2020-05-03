@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ClipboardImageCropper
@@ -14,9 +12,17 @@ namespace ClipboardImageCropper
 		[STAThread]
 		static void Main()
 		{
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+			Application.ThreadException += ApplicationOnThreadException;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+			Application.Run(new NotifyApplicationContext());
+		}
+
+		private static void ApplicationOnThreadException(object sender, ThreadExceptionEventArgs args)
+		{
+			MessageBox.Show(args.Exception.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 	}
 }
